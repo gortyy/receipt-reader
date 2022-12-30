@@ -9,7 +9,7 @@ class Reader:
         self.image_file_path = image_file_path
         self._tesseract_config = tesseract_config
 
-    def read_image(self) -> str:
+    def read(self) -> str:
         img = cv2.imread(self.image_file_path)
         img = self._threshold(self._grayscale(img))
         return pytesseract.image_to_string(img, config=self._tesseract_config)

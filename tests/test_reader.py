@@ -2,7 +2,6 @@ from textwrap import dedent
 
 import pytest
 
-
 from receipt_reader import Reader
 
 
@@ -14,7 +13,7 @@ def image_file_path() -> str:
 def test_read_image(image_file_path):
     reader = Reader(image_file_path)
 
-    result = reader.read_image()
+    result = reader.read()
 
     assert result == dedent(
         """\
