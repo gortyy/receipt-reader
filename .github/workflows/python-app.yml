@@ -28,6 +28,10 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install poetry
         poetry install
+
+        apt update
+        add-apt-repository ppa:alex-p/tesseract-ocr-devel
+        apt install -y tesseract-ocr
     - name: Format
       run: |
         poetry run invoke format
