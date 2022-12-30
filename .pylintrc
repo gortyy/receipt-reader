@@ -1,0 +1,27 @@
+[MASTER]
+
+fail-under=10.0
+
+[MESSAGES CONTROL]
+
+disable=missing-class-docstring,
+        missing-module-docstring,
+        missing-function-docstring,
+        too-few-public-methods,
+        unspecified-encoding,
+        bare-except
+
+[REFACTORING]
+
+max-nested-blocks=5
+
+[LOGGING]
+
+logging-format-style=new
+logging-modules=logging
+
+
+[MISCELLANEOUS]
+
+notes=FIXME,
+      TODO
