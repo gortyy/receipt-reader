@@ -1,0 +1,35 @@
+repos:
+  -   repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.3.0
+      hooks:
+        -   id: trailing-whitespace
+            stages:
+              -   commit
+              -   push
+  -   repo: local
+      hooks:
+        -   id: format
+            name: Run format
+            language: system
+            pass_filenames: false
+            entry: poetry run invoke format
+            stages:
+              -   commit
+  -   repo: local
+      hooks:
+        -   id: lint
+            name: Run lint
+            language: system
+            pass_filenames: false
+            entry: poetry run invoke lint
+            stages:
+              -   push
+  -   repo: local
+      hooks:
+        -   id: test
+            name: Run tests
+            language: system
+            pass_filenames: false
+            entry: poetry run invoke test
+            stages:
+              -   push
