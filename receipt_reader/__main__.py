@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from receipt_reader import Reader, Parser
+from receipt_reader import Parser, Reader
 from receipt_reader.aggregator import Aggregator
 from receipt_reader.translator import Translator
 
