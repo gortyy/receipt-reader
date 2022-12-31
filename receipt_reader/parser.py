@@ -33,7 +33,7 @@ class Parser:
             return float(price)
         except ValueError as ve:
             raise ReceiptParserException(
-                f"Couldn't parse price in following string: {string}"
+                f"Couldn't parse price in following string: {string}, {price}"
             ) from ve
 
     @classmethod
