@@ -1,30 +1,47 @@
-from argparse import ArgumentParser
+from pprint import pp
+
+import typer
 
 from receipt_reader import Parser, Reader
 from receipt_reader.aggregator import Aggregator
+from receipt_reader.db import DbClient
+from receipt_reader.product import Product
 from receipt_reader.translator import Translator
 
+app = typer.Typer()
 
-def main():
-    args = parse_args()
-    receipt_reader = Reader(args.file)
-    contents = receipt_reader.read_image()
+
+@app.command()
+def insert_receipt(filepath: str):
+    receipt_reader = Reader(filepath)
+    contents = receipt_reader.read()
 
     receipt_parser = Parser(contents)
-    from pprint import pp
 
     products = [Translator(product).translate() for product in receipt_parser.parse()]
     aggregator = Aggregator(products)
-    pp(aggregator.aggregate())
+    aggregator.aggregate()
+
+    _insert(products)
 
 
-def parse_args():
-    parser = ArgumentParser()
-    parser.add_argument("--file", type=str, required=True)
-    parser.add_argument("--output-file", type=str, required=False)
+@app.command()
+def insert_manually(products: list[str]):
+    parsed_products = []
+    for product in products:
+        name, price = product.split(":")
+        product = Product(name, float(price))
+        translator = Translator(product)
+        parsed_products.append(translator.translate())
 
-    return parser.parse_args()
+    _insert(parsed_products)
+
+
+def _insert(products: list[Product]):
+    client = DbClient("mongodb://admin:pass@localhost:27017/")
+    insert_id = client.insert(products)
+    pp(client.find(insert_id))
 
 
 if __name__ == "__main__":
-    main()
+    app()
